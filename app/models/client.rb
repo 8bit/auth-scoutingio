@@ -4,13 +4,8 @@ class Client < ActiveRecord::Base
   
   private
     def generate_acces_tokens
-      create_api_token
       create_api_secret
     end
-    
-    def create_api_token
-      self.api_token = rand(36**8).to_s(36) if self.api_token.nil?
-    end 
   
     def create_api_secret
       begin

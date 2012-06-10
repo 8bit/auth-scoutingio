@@ -1,14 +1,16 @@
 CardScoutingio::Application.routes.draw do
   resources :authorizations
 
-  get "authenticate/:request_token" => 'sessions#new', :as => :authenticate 
+  get "login" => 'sessions#new', :as => :login 
 
-  post "authenticate/:request_token" => 'sessions#create'
+  post "login" => 'sessions#create'
 
   get "logout" => 'sessions#destroy', :as => :logout
 
   post 'request' => 'requests#create'
-
+  
+  match 'oauth/authorize' => 'oauth2#authorize'
+  match 'oauth/token' => 'oauth2#token'
   resources :clients
 
   resources :users
@@ -68,5 +70,5 @@ CardScoutingio::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+  match ':controller(/:action(/:id))(.:format)'
 end

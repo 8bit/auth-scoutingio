@@ -1,36 +1,24 @@
 class Request < ActiveRecord::Base
-  belongs_to :client
-  belongs_to :user
+  # create_table "requests", :force => true do |t|
+  #   t.string   "response_type"
+  #   t.string   "client_id"
+  #   t.string   "scope"
+  #   t.string   "redirect_uri"
+  #   t.string   "nonce"
+  #   t.string   "state"
+  #   t.text     "request"
+  #   t.string   "request_uri"
+  #   t.string   "display"
+  #   t.string   "prompt"
+  #   t.text     "id_token"
+  #   t.datetime "created_at",    :null => false
+  #   t.datetime "updated_at",    :null => false
+  # end
   
-  validates :client_id, :presence => true
-
-  before_create :create_request_token
-
-  def to_param
-    permalink
+  validates :response_type, :client_id, :scope, :redirect_uri, :presence => {:message => "invalid_request" }
+  validates :response_type, :inclusion => { :in => ["code", "token", "id_token", "code id_token"],
+      :message => "unsupported_response_type" }
+  validates_each :scope do |record, attr, value|
+    record.errors.add(attr, 'invalid_scope') if value.blank? || (value.split(" ") - ["openid", "profile", "email", "address", "phone", "claims_in_id_token"]).present? || !value.split(" ").include?("openid")
   end
-  
-  def permalink
-    "#{request_token}"
-  end 
-  
-  def user=(obj)
-    create_access_token
-    super(obj)
-  end
-  
-  private
-  
-  def create_request_token
-    begin
-      self.request_token = SecureRandom.urlsafe_base64
-    end while Request.exists?(:request_token => self.request_token)
-  end
-  
-  def create_access_token
-    begin
-      self.access_token = SecureRandom.urlsafe_base64
-    end while Request.exists?(:access_token => self.access_token)
-  end
-  
 end

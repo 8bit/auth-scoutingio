@@ -1,2 +1,26 @@
-<h1>Sessions#new</h1>
-<p>Find me in app/views/sessions/new.html.erb</p>
+<div class="span4 offset4">
+  <center><%= image_tag "http://placehold.it/250x100&text=BSA%20Passport%20Logo" %><br />
+  
+  <div id="notices">
+  	<% flash.each do |key, msg| %>
+  	  <div id="notice_<%= key %>" class="alert alert-<%= key %>">
+        <a class="close" data-dismiss="alert">×</a>
+        <strong><%=  key.to_s.capitalize %>:</strong> <%= msg %>
+      </div>
+  	<% end %>
+  </div>
+  
+  <%= form_tag login_path, :class => "well" do %>
+    <div class="field">
+      <%= label_tag :email %><br />
+      <%= text_field_tag :email, nil, :placeholder => "your@email.com" %>
+    </div>
+    <div class="field">
+      <%= label_tag :password %><br />
+      <%= password_field_tag :password %>
+    </div>
+
+    <div class="actions"><%= submit_tag "Log In", :class => "btn" %> </div>
+  <% end%>
+  </center>
+</div>

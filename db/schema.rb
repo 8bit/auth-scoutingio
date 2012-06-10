@@ -11,17 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120610000357) do
+ActiveRecord::Schema.define(:version => 20120610145429) do
 
   create_table "authorizations", :force => true do |t|
+    t.integer  "request_id"
     t.integer  "client_id"
     t.integer  "user_id"
-    t.string   "authorization_token"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.string   "authorization_code"
+    t.string   "access_token"
+    t.string   "refresh_token"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.datetime "code_expires_at"
   end
 
   add_index "authorizations", ["client_id"], :name => "index_authorizations_on_client_id"
+  add_index "authorizations", ["request_id"], :name => "index_authorizations_on_request_id"
   add_index "authorizations", ["user_id"], :name => "index_authorizations_on_user_id"
 
   create_table "clients", :force => true do |t|
@@ -35,16 +40,20 @@ ActiveRecord::Schema.define(:version => 20120610000357) do
   end
 
   create_table "requests", :force => true do |t|
-    t.integer  "client_id"
-    t.integer  "user_id"
-    t.string   "request_token"
-    t.string   "access_token"
+    t.string   "response_type"
+    t.string   "client_id"
+    t.string   "scope"
+    t.string   "redirect_uri"
+    t.string   "nonce"
+    t.string   "state"
+    t.text     "request"
+    t.string   "request_uri"
+    t.string   "display"
+    t.string   "prompt"
+    t.text     "id_token"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
-
-  add_index "requests", ["client_id"], :name => "index_requests_on_client_id"
-  add_index "requests", ["user_id"], :name => "index_requests_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email"
