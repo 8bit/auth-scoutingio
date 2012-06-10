@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @client.name %>
+</p>
+
+<p>
+  <b>Api token:</b>
+  <%= @client.api_token %>
+</p>
+
+<p>
+  <b>Api secret:</b>
+  <%= @client.api_secret %>
+</p>
+
+<p>
+  <b>Callback url:</b>
+  <%= @client.callback_url %>
+</p>
+
+<p>
+  <b>Return url:</b>
+  <%= @client.return_url %>
+</p>
+
+
+<%= link_to 'Edit', edit_client_path(@client) %> |
+<%= link_to 'Back', clients_path %>

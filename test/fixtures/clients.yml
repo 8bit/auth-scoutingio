@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  api_token: MyString
+  api_secret: MyString
+  callback_url: MyString
+  return_url: MyString
+
+two:
+  name: MyString
+  api_token: MyString
+  api_secret: MyString
+  callback_url: MyString
+  return_url: MyString

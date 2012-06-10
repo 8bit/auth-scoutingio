@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  application: 
+  user: 
+  request_token: MyString
+  access_token: MyString
+
+two:
+  application: 
+  user: 
+  request_token: MyString
+  access_token: MyString
