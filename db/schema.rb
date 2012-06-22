@@ -11,49 +11,46 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120610145429) do
+ActiveRecord::Schema.define(:version => 20120610174358) do
 
-  create_table "authorizations", :force => true do |t|
-    t.integer  "request_id"
-    t.integer  "client_id"
-    t.integer  "user_id"
-    t.string   "authorization_code"
-    t.string   "access_token"
-    t.string   "refresh_token"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-    t.datetime "code_expires_at"
+  create_table "oauth_access_grants", :force => true do |t|
+    t.integer  "resource_owner_id", :null => false
+    t.integer  "application_id",    :null => false
+    t.string   "token",             :null => false
+    t.integer  "expires_in",        :null => false
+    t.string   "redirect_uri",      :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "revoked_at"
+    t.string   "scopes"
   end
 
-  add_index "authorizations", ["client_id"], :name => "index_authorizations_on_client_id"
-  add_index "authorizations", ["request_id"], :name => "index_authorizations_on_request_id"
-  add_index "authorizations", ["user_id"], :name => "index_authorizations_on_user_id"
+  add_index "oauth_access_grants", ["token"], :name => "index_oauth_access_grants_on_token", :unique => true
 
-  create_table "clients", :force => true do |t|
-    t.string   "name"
-    t.string   "api_token"
-    t.string   "api_secret"
-    t.string   "callback_url"
-    t.string   "return_url"
+  create_table "oauth_access_tokens", :force => true do |t|
+    t.integer  "resource_owner_id"
+    t.integer  "application_id",    :null => false
+    t.string   "token",             :null => false
+    t.string   "refresh_token"
+    t.integer  "expires_in"
+    t.datetime "revoked_at"
+    t.datetime "created_at",        :null => false
+    t.string   "scopes"
+  end
+
+  add_index "oauth_access_tokens", ["refresh_token"], :name => "index_oauth_access_tokens_on_refresh_token", :unique => true
+  add_index "oauth_access_tokens", ["resource_owner_id"], :name => "index_oauth_access_tokens_on_resource_owner_id"
+  add_index "oauth_access_tokens", ["token"], :name => "index_oauth_access_tokens_on_token", :unique => true
+
+  create_table "oauth_applications", :force => true do |t|
+    t.string   "name",         :null => false
+    t.string   "uid",          :null => false
+    t.string   "secret",       :null => false
+    t.string   "redirect_uri", :null => false
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
 
-  create_table "requests", :force => true do |t|
-    t.string   "response_type"
-    t.string   "client_id"
-    t.string   "scope"
-    t.string   "redirect_uri"
-    t.string   "nonce"
-    t.string   "state"
-    t.text     "request"
-    t.string   "request_uri"
-    t.string   "display"
-    t.string   "prompt"
-    t.text     "id_token"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
+  add_index "oauth_applications", ["uid"], :name => "index_oauth_applications_on_uid", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email"

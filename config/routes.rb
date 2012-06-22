@@ -1,4 +1,6 @@
 CardScoutingio::Application.routes.draw do
+  mount Doorkeeper::Engine => '/oauth'
+
   resources :authorizations
 
   get "login" => 'sessions#new', :as => :login 
@@ -6,12 +8,6 @@ CardScoutingio::Application.routes.draw do
   post "login" => 'sessions#create'
 
   get "logout" => 'sessions#destroy', :as => :logout
-
-  post 'request' => 'requests#create'
-  
-  match 'oauth/authorize' => 'oauth2#authorize'
-  match 'oauth/token' => 'oauth2#token'
-  resources :clients
 
   resources :users
 
@@ -70,5 +66,5 @@ CardScoutingio::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  match ':controller(/:action(/:id))(.:format)'
+  # match ':controller(/:action(/:id))(.:format)'
 end
