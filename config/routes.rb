@@ -1,4 +1,6 @@
 CardScoutingio::Application.routes.draw do
+  root to: "clients#index"
+  
   resources :authorizations
 
   get "authenticate/:request_token" => 'sessions#new', :as => :authenticate 
